@@ -16,8 +16,8 @@ Antes de começar, você precisará ter instalado em sua máquina:
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/tmdb-backend-app.git
-   cd tmdb-backend-app
+   git clone https://github.com/GuilhermeViana20/tmdb-backend.git
+   cd tmdb-backend
    ```
 
 2. Crie um arquivo .env a partir do arquivo .env.example:
