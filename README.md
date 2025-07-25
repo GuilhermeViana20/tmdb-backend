@@ -2,7 +2,10 @@
 
 # TMDB Backend App
 
-Este é um projeto de backend desenvolvido em Laravel que se conecta a um banco de dados MySQL. O projeto utiliza Docker e Docker Compose para facilitar a configuração e o gerenciamento do ambiente de desenvolvimento.
+Este é um projeto de backend desenvolvido em Laravel que se conecta a um banco de dados MySQL.  
+O projeto utiliza Docker e Docker Compose para facilitar a configuração e o gerenciamento do ambiente de desenvolvimento.
+
+---
 
 ## Pré-requisitos
 
@@ -10,6 +13,8 @@ Antes de começar, você precisará ter instalado em sua máquina:
 
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/)
+
+---
 
 ## Instalação
 
@@ -26,36 +31,65 @@ Antes de começar, você precisará ter instalado em sua máquina:
    cp .env.example .env
    ```
 
-3. Configure as variáveis de ambiente no arquivo .env conforme necessário.
-
-   ```bash
-   cp .env.example .env
-   ```
-
-## Executando o Projeto
-
-1. Para iniciar o projeto, execute o seguinte comando:
+4. Suba os containers com Docker Compose:
 
    ```bash
    docker-compose up -d --build
    ```
 
-Isso irá construir as imagens e iniciar os containers definidos no arquivo docker-compose.yml.
-
-## Acessando o Aplicativo
-
-1. Após iniciar os containers, você pode acessar o aplicativo no seu navegador em:
+5. Acesse o container do app e instale as dependências:
 
    ```bash
-   http://localhost:8080
+   docker exec -it tmdb-backend-app bash
+   composer install
+   php artisan key:generate
    ```
 
-## Acessando o Banco de Dados
+6. Rode as migrations:
 
-1. Você pode acessar o banco de dados MySQL usando um cliente MySQL com as seguintes configurações:
+   ```bash
+   php artisan migrate
+   ```
 
-- Host: localhost
-- Porta: 3306
-- Usuário: root
-- Senha: root
-- Banco de Dados: laravel
+## Como obter a chave da API do TMDB
+
+1. Crie uma conta gratuita no **[TMDB](https://www.themoviedb.org/)**.
+2. Faça login e vá até as **configurações da conta**.
+3. No menu lateral, clique em **API**.
+4. Solicite uma nova chave de **API.
+5. Aceite os **termos e condições**.
+6. Aguarde a aprovação (pode levar algum tempo).
+7. Após a aprovação, copie a chave e adicione no seu arquivo .env:
+
+   ```bash
+   TMDB_BEARER_TOKEN=coloque_a_chave_aqui
+   ```
+
+## Estrutura do Projeto
+
+O projeto segue a seguinte estrutura:
+
+    app/
+    ├── Http/
+    │   ├── Controllers/
+    │   │   ├── Api/
+    │   │   └── Controller.php
+    │   └── Middleware/
+    ├── Models/
+    ├── Providers/
+    ├── Repositories/
+    ├── Services/
+
+- Controllers: camadas de entrada da API
+- Repositories: acesso aos dados (DB)
+- Services: regras de negócio
+
+---
+
+## Scripts úteis
+
+- Subir containers: docker-compose up -d
+- Parar containers: docker-compose down
+- Acessar container: docker exec -it tmdb-backend-app bash
+- Rodar migrations: php artisan migrate
+
