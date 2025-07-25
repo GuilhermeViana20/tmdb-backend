@@ -14,7 +14,11 @@ class MovieRepository
                     $q->where('genres.id', $genreId);
                 });
             })
-            ->get();
+            ->get()
+            ->map(function ($movie) {
+                $movie->release_date = \Carbon\Carbon::parse($movie->release_date)->format('d/m/Y');
+                return $movie;
+            });
     }
 
     public function find($id)
